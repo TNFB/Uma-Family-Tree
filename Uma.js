@@ -123,19 +123,22 @@ Juments.ajouterJument("Mejiro McQueen")
 Juments.ajouterJument("Symboli Rudolf")
 Juments.ajouterJument("Nice Nature")
 
+console.log(Juments.tableau)
+
 Juments.tableau.forEach(element => {
     Juments.ajouterParents(element)
 });
+
+console.log(Juments.tableau2)
 
 Juments.tableau2.forEach(element => {
     Juments.ajouterGrandParents(element)
 });
 
+console.log(Juments.tableau3)
+
 Juments.tableau3.forEach(element => {
     Juments.ajouterArrieresGrandParents(element)
 });
 
-console.log(Juments.tableau)
-console.log(Juments.tableau2)
-console.log(Juments.tableau3)
 console.log(Juments.tableau4)
