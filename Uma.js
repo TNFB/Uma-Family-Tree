@@ -7,7 +7,7 @@ const supabaseKey = process.env.SUPABASE_KEY
 const client = createClient(supabaseUrl, supabaseKey)
 
 const main = async () => {
-    const cheval = new Jument("Tokai Teio",null);
+    const cheval = new Jument(null,"0000334378");
     await save(cheval);
     getPedigree(cheval);
 }
@@ -17,18 +17,19 @@ const main = async () => {
  * @param {Jument} jument 
  */
 const getPedigree = async (jument) => {
-    if(jument.idPere){
+    if(jument.idPere && !await exist(jument.idPere)){
         const pere = new Jument(null,jument.idPere);
         console.log(pere);
         const resultPere = await save(pere);
         if(resultPere){
-        await getPedigree(pere);
+            await getPedigree(pere);
         }
     }
-    if(jument.idMere){
+
+    if(jument.idMere && !await exist(jument.idMere)){
         const mere = new Jument(null,jument.idMere);
         console.log(mere);
-        const resultMere = await save(mere);
+       const resultMere = await save(mere);
         if(resultMere){
             await getPedigree(mere);
         }
@@ -43,6 +44,11 @@ const save = async (jument) => {
     const {_,error} = await client.from("Juments").insert([jument]);
     if(error) return null;
     else return 1;
+}
+
+const exist = async (id) => {
+    const res = await client.from("Juments").select("*").eq("id",id)
+    return res.data.length != 0;
 }
 
 main();
